@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Genthe — Concierge / Comercial</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f4f8fc; font-family: 'DM Sans', sans-serif; color: #1a2e3d; }
+
+  .header { background: #1B6FAB; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(27,111,171,0.25); }
+  .header-inner { max-width: 680px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; line-height: 1; }
+  .logo-text { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  .logo-text .verde { color: #6BBF4E; }
+  .logo-slogan { font-family: 'Nunito', sans-serif; font-size: 7.5px; font-weight: 700; color: rgba(255,255,255,0.65); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+  .vaga-tag { font-size: 12px; color: rgba(255,255,255,0.75); font-weight: 500; }
+  .progress-bar { height: 4px; background: rgba(255,255,255,0.15); }
+  .progress-fill { height: 100%; background: #6BBF4E; border-radius: 0 2px 2px 0; transition: width 0.4s ease; }
+
+  .container { max-width: 680px; margin: 0 auto; padding: 32px 24px 60px; }
+  .card { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 4px 24px rgba(27,111,171,0.08); border: 1px solid #d4e6f1; }
+
+  .vaga-badge { display: inline-block; font-size: 11px; font-weight: 700; color: #6BBF4E; background: #edf7e9; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-family: 'Nunito', sans-serif; }
+  .vaga-titulo { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 800; color: #1a2e3d; margin-bottom: 4px; }
+  .vaga-empresa { font-size: 14px; color: #5a7a8a; }
+  .vaga-header { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1.5px solid #d4e6f1; }
+
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .info-item { display: flex; align-items: flex-start; gap: 10px; background: #e8f2fa; border-radius: 10px; padding: 12px 14px; }
+  .info-icone { font-size: 18px; margin-top: 1px; }
+  .info-label { font-size: 11px; color: #5a7a8a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Nunito', sans-serif; }
+  .info-valor { font-size: 13px; color: #1a2e3d; font-weight: 700; font-family: 'Nunito', sans-serif; margin-top: 2px; }
+
+  .secao { margin-bottom: 24px; }
+  .secao-titulo { font-size: 13px; font-weight: 800; color: #1B6FAB; font-family: 'Nunito', sans-serif; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .benef-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+  .benef-item { font-size: 13px; color: #1a2e3d; display: flex; align-items: flex-start; gap: 6px; }
+  .benef-check { color: #6BBF4E; font-weight: 800; flex-shrink: 0; }
+  .req-lista { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #1a2e3d; line-height: 1.55; }
+
+  .prazo-banner { display: flex; align-items: center; gap: 14px; background: linear-gradient(135deg, #1B6FAB 0%, #1558a0 100%); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; color: #fff; }
+  .prazo-icone { font-size: 24px; flex-shrink: 0; }
+  .prazo-label { font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-family: 'Nunito', sans-serif; }
+  .prazo-data { font-size: 16px; font-weight: 800; color: #fff; font-family: 'Nunito', sans-serif; margin-top: 2px; }
+
+  .lgpd-box { background: #f8fbfd; border: 1.5px solid #d4e6f1; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .lgpd-titulo { font-size: 13px; font-weight: 800; color: #1B6FAB; font-family: 'Nunito', sans-serif; margin-bottom: 10px; }
+  .lgpd-texto { font-size: 13px; color: #5a7a8a; line-height: 1.7; margin-bottom: 14px; }
+  .lgpd-label { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #1a2e3d; cursor: pointer; line-height: 1.5; }
+  .lgpd-label input[type=checkbox] { margin-top: 2px; accent-color: #1B6FAB; width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
+  .lgpd-erro { font-size: 12px; color: #c0392b; margin-top: 10px; font-weight: 500; display: none; }
+  .lgpd-erro.visivel { display: block; }
+
+  .etapa-section { display: none; }
+  .etapa-section.visivel { display: block; }
+  .etapa-num { font-size: 12px; font-weight: 700; color: #1B6FAB; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Nunito', sans-serif; }
+  .etapa-titulo { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 800; color: #1a2e3d; margin-top: 6px; margin-bottom: 8px; }
+  .etapa-desc { font-size: 14px; color: #5a7a8a; line-height: 1.6; margin-bottom: 24px; }
+
+  .campo { margin-bottom: 22px; }
+  label.campo-label { display: block; font-size: 14px; font-weight: 600; color: #1a2e3d; margin-bottom: 8px; font-family: 'Nunito', sans-serif; }
+  .obrig { color: #1B6FAB; }
+  input[type=text], input[type=email], input[type=tel], input[type=number], select, textarea {
+    width: 100%; padding: 11px 14px; font-size: 14px;
+    border: 1.5px solid #d4e6f1; border-radius: 8px;
+    background: #f8fbfd; color: #1a2e3d;
+    font-family: 'DM Sans', sans-serif; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #1B6FAB; box-shadow: 0 0 0 3px rgba(27,111,171,0.12); }
+  textarea { resize: vertical; min-height: 96px; line-height: 1.6; }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a7a8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer;
+  }
+
+  .botoes { display: flex; gap: 12px; margin-top: 32px; justify-content: flex-end; }
+  .btn-voltar { padding: 11px 24px; background: #e8f2fa; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; color: #1B6FAB; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.15s; }
+  .btn-avancar { padding: 11px 28px; background: #1B6FAB; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.15s; }
+  .btn-voltar:hover, .btn-avancar:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-avancar:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .passos { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; justify-content: center; }
+  .passo { display: flex; align-items: center; gap: 6px; opacity: 0.35; }
+  .passo.ativo { opacity: 1; }
+  .passo.concluido { opacity: 0.65; }
+  .passo-circulo { width: 26px; height: 26px; border-radius: 50%; background: #d4e6f1; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #5a7a8a; font-family: 'Nunito', sans-serif; flex-shrink: 0; }
+  .passo.ativo .passo-circulo { background: #1B6FAB; color: #fff; }
+  .passo.concluido .passo-circulo { background: #6BBF4E; color: #fff; }
+  .passo-label { font-size: 12px; color: #5a7a8a; white-space: nowrap; }
+
+  .success-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .success-card { background: #fff; border-radius: 20px; padding: 52px 40px; max-width: 480px; width: 100%; text-align: center; box-shadow: 0 8px 40px rgba(27,111,171,0.12); border: 1px solid #d4e6f1; }
+  .success-icon { width: 64px; height: 64px; border-radius: 50%; background: #6BBF4E; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; color: #fff; margin: 24px auto 20px; }
+  .success-titulo { font-family: 'Nunito', sans-serif; font-size: 24px; font-weight: 800; color: #1a2e3d; margin-bottom: 14px; }
+  .success-texto { font-size: 14px; color: #5a7a8a; line-height: 1.7; margin-bottom: 20px; }
+  .success-slogan { font-size: 11px; color: #1B6FAB; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-family: 'Nunito', sans-serif; }
+  .erro-envio { font-size: 13px; color: #c0392b; margin-top: 12px; text-align: center; display: none; }
+  .erro-envio.visivel { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <div class="logo-text">gen<span class="verde">th</span>e</div>
+      <div class="logo-slogan">que entende de gente</div>
+    </div>
+    <div class="vaga-tag">Concierge / Comercial · Campo Grande/MS</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progresso" style="width:0%"></div></div>
+</div>
+
+<!-- INTRO -->
+<div class="container" id="tela-intro">
+  <div class="card">
+    <div class="vaga-header">
+      <div class="vaga-badge">Processo Seletivo Aberto</div>
+      <h1 class="vaga-titulo">Concierge / Comercial</h1>
+      <p class="vaga-empresa">Saúde · Cirurgia Plástica · Campo Grande/MS</p>
+    </div>
+    <div class="info-grid">
+      <div class="info-item"><span class="info-icone">📄</span><div><div class="info-label">Contratação</div><div class="info-valor">CLT</div></div></div>
+      <div class="info-item"><span class="info-icone">💰</span><div><div class="info-label">Salário</div><div class="info-valor">R$ 2.500,00 + Bônus</div></div></div>
+      <div class="info-item"><span class="info-icone">🕗</span><div><div class="info-label">Horário</div><div class="info-valor">Seg a Sex · 08h às 18h/17h</div></div></div>
+      <div class="info-item"><span class="info-icone">📍</span><div><div class="info-label">Local</div><div class="info-valor">Campo Grande/MS</div></div></div>
+    </div>
+    <div class="secao">
+      <div class="secao-titulo">🎁 Benefícios</div>
+      <div class="benef-grid">
+        <div class="benef-item"><span class="benef-check">✓</span> Vale Refeição R$ 300,00/mês</div>
+        <div class="benef-item"><span class="benef-check">✓</span> Auxílio Combustível / Vale Transporte R$ 250,00/mês</div>
+        <div class="benef-item"><span class="benef-check">✓</span> Bonificação por consultas agendadas</div>
+      </div>
+    </div>
+    <div class="secao">
+      <div class="secao-titulo">📚 Requisitos</div>
+      <ul class="req-lista">
+        <li>Ensino Médio Completo (Superior em andamento é diferencial)</li>
+        <li>Experiência em vendas, atendimento ao cliente ou área comercial</li>
+        <li>Facilidade com ferramentas digitais e sistemas de agendamento</li>
+        <li>Boa postura e boa aparência — representa a imagem da clínica</li>
+        <li>Perfil comercial genuíno: gostar de atender pessoas e de vender</li>
+        <li>Desejável: vivência em clínicas de saúde ou cirurgia plástica</li>
+      </ul>
+    </div>
+    <div class="prazo-banner">
+      <span class="prazo-icone">📅</span>
+      <div>
+        <div class="prazo-label">Vagas limitadas</div>
+        <div class="prazo-data">Candidate-se agora</div>
+      </div>
+    </div>
+    <div class="lgpd-box">
+      <div class="lgpd-titulo">🔒 Proteção de Dados — LGPD</div>
+      <p class="lgpd-texto">As informações fornecidas neste questionário serão utilizadas exclusivamente para fins de seleção e recrutamento, em conformidade com a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong>. Seus dados serão armazenados com segurança, não serão compartilhados com terceiros sem sua autorização e poderão ser solicitados para exclusão a qualquer momento pelo e-mail <strong>contato@genthe.com.br</strong>.</p>
+      <label class="lgpd-label">
+        <input type="checkbox" id="lgpd-check" />
+        <span>Li e concordo com o tratamento dos meus dados pessoais para fins de participação neste processo seletivo, conforme a LGPD.</span>
+      </label>
+      <p class="lgpd-erro" id="lgpd-erro">É necessário concordar com os termos para continuar.</p>
+    </div>
+    <div style="display:flex; justify-content:flex-end;">
+      <button class="btn-avancar" onclick="iniciar()">Iniciar questionário →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULÁRIO -->
+<div id="form-wrap" style="display:none;">
+  <div class="container">
+
+    <!-- ETAPA 1 -->
+    <div class="etapa-section visivel" id="etapa-1">
+      <div class="etapa-num">Etapa 1 de 5</div>
+      <h1 class="etapa-titulo">Dados Pessoais</h1>
+      <p class="etapa-desc">Vamos começar com suas informações básicas.</p>
+      <div class="card">
+        <div class="campo"><label class="campo-label">Nome completo <span class="obrig">*</span></label><input type="text" id="nome" placeholder="Seu nome completo" /></div>
+        <div class="campo"><label class="campo-label">E-mail <span class="obrig">*</span></label><input type="email" id="email" placeholder="seu@email.com" /></div>
+        <div class="campo"><label class="campo-label">Telefone / WhatsApp <span class="obrig">*</span></label><input type="tel" id="telefone" placeholder="(67) 99999-9999" /></div>
+        <div class="campo"><label class="campo-label">Idade <span class="obrig">*</span></label><input type="number" id="idade" placeholder="Ex: 28" /></div>
+        <div class="campo"><label class="campo-label">Estado civil <span class="obrig">*</span></label><select id="estado_civil"><option value="">Selecione...</option><option>Solteiro(a)</option><option>Casado(a)</option><option>União estável</option><option>Divorciado(a)</option><option>Viúvo(a)</option></select></div>
+        <div class="campo"><label class="campo-label">Possui filhos? <span class="obrig">*</span></label><select id="filhos"><option value="">Selecione...</option><option>Não</option><option>Sim, 1 filho</option><option>Sim, 2 filhos</option><option>Sim, 3 ou mais filhos</option></select></div>
+        <div class="campo"><label class="campo-label">Cidade <span class="obrig">*</span></label><input type="text" id="cidade" placeholder="Ex: Campo Grande" /></div>
+        <div class="campo"><label class="campo-label">Bairro <span class="obrig">*</span></label><input type="text" id="bairro" placeholder="Ex: Centro" /></div>
+        <div class="botoes"><button class="btn-avancar" onclick="irPara(2)">Continuar →</button></div>
+      </div>
+    </div>
+
+    <!-- ETAPA 2 -->
+    <div class="etapa-section" id="etapa-2">
+      <div class="etapa-num">Etapa 2 de 5</div>
+      <h1 class="etapa-titulo">Formação e Experiência</h1>
+      <p class="etapa-desc">Conte-nos sobre sua trajetória acadêmica e profissional.</p>
+      <div class="card">
+        <div class="campo"><label class="campo-label">Escolaridade <span class="obrig">*</span></label><select id="escolaridade"><option value="">Selecione...</option><option>Ensino Médio Completo</option><option>Superior Incompleto</option><option>Superior Completo</option><option>Pós-graduação Incompleta</option><option>Pós-graduação Completa</option></select></div>
+        <div class="campo"><label class="campo-label">Se cursa ou cursou o Superior, qual é o curso?</label><input type="text" id="curso_superior" placeholder="Ex: Administração, Estética, Enfermagem..." /></div>
+        <div class="campo"><label class="campo-label">Possui experiência em atendimento ao cliente, vendas ou área comercial? <span class="obrig">*</span></label><select id="tempo_exp_atendimento"><option value="">Selecione...</option><option>Não possuo</option><option>Menos de 1 ano</option><option>Entre 1 e 3 anos</option><option>Entre 3 e 5 anos</option><option>Mais de 5 anos</option></select></div>
+        <div class="campo"><label class="campo-label">Descreva brevemente sua experiência mais relevante em atendimento ou vendas <span class="obrig">*</span></label><textarea id="descricao_experiencia" placeholder="Mencione: empresa, cargo, quanto tempo e o que fazia..."></textarea></div>
+        <div class="campo"><label class="campo-label">Já trabalhou em clínica de saúde, estética ou cirurgia plástica? <span class="obrig">*</span></label><select id="exp_saude"><option value="">Selecione...</option><option>Não</option><option>Sim, em clínica de cirurgia plástica</option><option>Sim, em outra clínica de saúde</option><option>Sim, em clínica de estética ou beleza</option></select></div>
+        <div class="campo"><label class="campo-label">Qual é sua situação profissional atual? <span class="obrig">*</span></label><select id="situacao_atual"><option value="">Selecione...</option><option>Empregado(a) CLT</option><option>Autônomo(a)</option><option>Desempregado(a)</option><option>Estudante</option></select></div>
+        <div class="botoes"><button class="btn-voltar" onclick="irPara(1)">← Voltar</button><button class="btn-avancar" onclick="irPara(3)">Continuar →</button></div>
+      </div>
+    </div>
+
+    <!-- ETAPA 3 -->
+    <div class="etapa-section" id="etapa-3">
+      <div class="etapa-num">Etapa 3 de 5</div>
+      <h1 class="etapa-titulo">Perfil Comercial</h1>
+      <p class="etapa-desc">Queremos entender sua relação com vendas e atendimento consultivo.</p>
+      <div class="card">
+        <div class="campo"><label class="campo-label">Como você descreveria seu perfil em relação a vendas? <span class="obrig">*</span></label><select id="perfil_vendas"><option value="">Selecione...</option><option>Gosto muito de vender e me sinto muito à vontade para isso</option><option>Consigo vender quando necessário, mas não é minha área favorita</option><option>Prefiro atendimento ao cliente sem foco em vendas</option><option>Tenho pouca experiência, mas quero aprender</option></select></div>
+        <div class="campo"><label class="campo-label">Você já realizou follow-up de clientes que não fecharam negócio ou agendamento? <span class="obrig">*</span></label><select id="faz_followup"><option value="">Selecione...</option><option>Sim, fazia com frequência</option><option>Sim, eventualmente</option><option>Não, mas entendo a importância</option><option>Não conheço esse processo</option></select></div>
+        <div class="campo"><label class="campo-label">Um paciente recebeu o orçamento há 5 dias e não respondeu. O que você faz? <span class="obrig">*</span></label><textarea id="cenario_followup" placeholder="Descreva como agiria nessa situação..."></textarea></div>
+        <div class="campo"><label class="campo-label">Qual é sua abordagem ao perceber que um paciente está indeciso? <span class="obrig">*</span></label><select id="abordagem_indeciso"><option value="">Selecione...</option><option>Ouço as dúvidas e ofereço informações que ajudem na decisão</option><option>Apresento os benefícios da consulta e reforço a confiança no médico</option><option>Dou espaço e aguardo o paciente decidir no próprio tempo</option><option>Ofereço alternativas, como reagendar para outra data</option></select></div>
+        <div class="campo"><label class="campo-label">Dê um exemplo de uma venda ou agendamento que você conduziu bem. O que fez a diferença?</label><textarea id="exemplo_venda" placeholder="Descreva a situação, o que você fez e o resultado..."></textarea></div>
+        <div class="botoes"><button class="btn-voltar" onclick="irPara(2)">← Voltar</button><button class="btn-avancar" onclick="irPara(4)">Continuar →</button></div>
+      </div>
+    </div>
+
+    <!-- ETAPA 4 -->
+    <div class="etapa-section" id="etapa-4">
+      <div class="etapa-num">Etapa 4 de 5</div>
+      <h1 class="etapa-titulo">Atendimento e Ferramentas</h1>
+      <p class="etapa-desc">Avalie suas competências de comunicação, organização e tecnologia.</p>
+      <div class="card">
+        <div class="campo"><label class="campo-label">Você tem facilidade para trabalhar com múltiplos atendimentos simultâneos? <span class="obrig">*</span></label><select id="multi_atendimento"><option value="">Selecione...</option><option>Sim, tenho muita facilidade</option><option>Sim, com algum esforço de organização</option><option>Prefiro focar em um atendimento por vez</option><option>Ainda estou desenvolvendo essa habilidade</option></select></div>
+        <div class="campo"><label class="campo-label">Como você lida com um paciente difícil ou insatisfeito? <span class="obrig">*</span></label><textarea id="paciente_dificil" placeholder="Descreva como age nessa situação..."></textarea></div>
+        <div class="campo"><label class="campo-label">Quais canais digitais você usa com frequência no trabalho? <span class="obrig">*</span></label><input type="text" id="canais_digitais" placeholder="Ex: WhatsApp, Instagram, e-mail, sistema de agendamento..." /></div>
+        <div class="campo"><label class="campo-label">Já utilizou algum sistema de agendamento ou CRM? <span class="obrig">*</span></label><select id="usa_sistema"><option value="">Selecione...</option><option>Sim, com muita frequência</option><option>Sim, de forma básica</option><option>Não, mas tenho facilidade para aprender</option><option>Não</option></select></div>
+        <div class="campo"><label class="campo-label">Se sim, qual(is) sistema(s) utilizou?</label><input type="text" id="qual_sistema" placeholder="Ex: Doctoralia, Google Agenda, HubSpot, Clinicorp..." /></div>
+        <div class="campo"><label class="campo-label">Como avalia seu domínio de ferramentas digitais em geral? <span class="obrig">*</span></label><select id="dominio_digital"><option value="">Selecione...</option><option>Básico</option><option>Intermediário</option><option>Avançado</option></select></div>
+        <div class="campo"><label class="campo-label">Possui noções de marketing digital ou gestão de redes sociais?</label><select id="mkt_digital"><option value="">Selecione...</option><option>Sim, uso com frequência profissional</option><option>Noções básicas</option><option>Uso apenas para fins pessoais</option><option>Não tenho noções</option></select></div>
+        <div class="botoes"><button class="btn-voltar" onclick="irPara(3)">← Voltar</button><button class="btn-avancar" onclick="irPara(5)">Continuar →</button></div>
+      </div>
+    </div>
+
+    <!-- ETAPA 5 -->
+    <div class="etapa-section" id="etapa-5">
+      <div class="etapa-num">Etapa 5 de 5</div>
+      <h1 class="etapa-titulo">Motivação e Disponibilidade</h1>
+      <p class="etapa-desc">Últimas informações antes de concluir.</p>
+      <div class="card">
+        <div class="campo"><label class="campo-label">Por que você tem interesse nesta vaga? <span class="obrig">*</span></label><textarea id="motivacao" placeholder="Seja específico(a). Mencione o que te atrai nessa oportunidade..."></textarea></div>
+        <div class="campo"><label class="campo-label">O que você considera mais importante no atendimento a pacientes de cirurgia plástica? <span class="obrig">*</span></label><textarea id="visao_atendimento" placeholder="Ex: empatia, discrição, acolhimento, confiança..."></textarea></div>
+        <div class="campo"><label class="campo-label">Como você lida com metas e pressão por resultados? <span class="obrig">*</span></label><select id="lida_metas"><option value="">Selecione...</option><option>Gosto de metas, me motivam a produzir mais</option><option>Consigo trabalhar bem com metas, mas prefiro equilíbrio</option><option>Metas me deixam ansioso(a), mas ainda entrego</option><option>Prefiro trabalhar sem pressão de metas</option></select></div>
+        <div class="campo"><label class="campo-label">Está trabalhando atualmente? <span class="obrig">*</span></label><select id="trabalhando_atualmente"><option value="">Selecione...</option><option>Não</option><option>Sim</option></select></div>
+        <div class="campo"><label class="campo-label">Qual sua disponibilidade para início? <span class="obrig">*</span></label><select id="disponibilidade_inicio"><option value="">Selecione...</option><option>Imediata</option><option>Em até 15 dias</option><option>Em até 30 dias</option><option>Em até 60 dias</option></select></div>
+        <div class="campo"><label class="campo-label">Tem disponibilidade para o horário de segunda a sexta, das 08h às 18h/17h? <span class="obrig">*</span></label><select id="disponibilidade_horario"><option value="">Selecione...</option><option>Sim, total</option><option>Sim, com ressalvas</option><option>Não tenho disponibilidade</option></select></div>
+        <div class="campo"><label class="campo-label">Se tiver ressalvas, descreva</label><input type="text" id="ressalva_horario" placeholder="Ex: tenho compromisso às quartas-feiras pela manhã" /></div>
+        <div class="campo"><label class="campo-label">Qual sua pretensão salarial? <span class="obrig">*</span></label><input type="text" id="pretensao_salarial" placeholder="Ex: R$ 2.500,00" /></div>
+        <div class="campo"><label class="campo-label">Participa de outro processo seletivo no momento?</label><select id="outro_processo"><option value="">Selecione...</option><option>Não</option><option>Sim</option></select></div>
+        <div class="campo"><label class="campo-label">Informações adicionais que gostaria de compartilhar</label><textarea id="informacoes_adicionais" placeholder="Conte algo relevante para sua candidatura que não foi contemplado acima..."></textarea></div>
+        <p class="erro-envio" id="erro-envio">Ocorreu um erro ao enviar. Por favor, tente novamente.</p>
+        <div class="botoes"><button class="btn-voltar" onclick="irPara(4)">← Voltar</button><button class="btn-avancar" id="btn-enviar" onclick="enviar()">Enviar questionário</button></div>
+      </div>
+    </div>
+
+    <div class="passos" id="passos">
+      <div class="passo ativo" id="p1"><div class="passo-circulo">1</div><span class="passo-label">Dados Pessoais</span></div>
+      <div class="passo" id="p2"><div class="passo-circulo">2</div><span class="passo-label">Formação</span></div>
+      <div class="passo" id="p3"><div class="passo-circulo">3</div><span class="passo-label">Comercial</span></div>
+      <div class="passo" id="p4"><div class="passo-circulo">4</div><span class="passo-label">Atendimento</span></div>
+      <div class="passo" id="p5"><div class="passo-circulo">5</div><span class="passo-label">Motivação</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCESSO -->
+<div class="success-wrap" id="sucesso" style="display:none;">
+  <div class="success-card">
+    <div class="logo-wrap" style="align-items:center; margin-bottom:12px;">
+      <div class="logo-text" style="color:#1B6FAB;">gen<span class="verde">th</span>e</div>
+      <div class="logo-slogan" style="color:#1B6FAB;">que entende de gente</div>
+    </div>
+    <div class="success-icon" style="display:flex;">✓</div>
+    <h2 class="success-titulo">Questionário enviado!</h2>
+    <p class="success-texto">Obrigado pela participação. Nossa equipe analisará suas respostas e, se houver compatibilidade com a vaga de <strong>Concierge / Comercial</strong>, entraremos em contato em breve.</p>
+    <p class="success-slogan">Genthe que entende de gente.</p>
+  </div>
+</div>
+
+<script>
+  var etapaAtual = 1;
+  var total = 5;
+
+  function iniciar() {
+    var check = document.getElementById('lgpd-check');
+    var erro = document.getElementById('lgpd-erro');
+    if (!check.checked) { erro.classList.add('visivel'); return; }
+    erro.classList.remove('visivel');
+    document.getElementById('tela-intro').style.display = 'none';
+    document.getElementById('form-wrap').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function irPara(n) {
+    document.getElementById('etapa-' + etapaAtual).classList.remove('visivel');
+    document.getElementById('p' + etapaAtual).classList.remove('ativo');
+    if (n > etapaAtual) {
+      document.getElementById('p' + etapaAtual).classList.add('concluido');
+      document.querySelector('#p' + etapaAtual + ' .passo-circulo').textContent = '✓';
+    } else {
+      document.getElementById('p' + etapaAtual).classList.remove('concluido');
+      document.querySelector('#p' + etapaAtual + ' .passo-circulo').textContent = etapaAtual;
+    }
+    etapaAtual = n;
+    document.getElementById('etapa-' + etapaAtual).classList.add('visivel');
+    document.getElementById('p' + etapaAtual).classList.add('ativo');
+    document.getElementById('progresso').style.width = ((etapaAtual - 1) / total * 100) + '%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  async function enviar() {
+    var btn = document.getElementById('btn-enviar');
+    var erroEl = document.getElementById('erro-envio');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    erroEl.classList.remove('visivel');
+
+    var dados = {
+      nome: val('nome'), email: val('email'), telefone: val('telefone'),
+      idade: val('idade'), estado_civil: val('estado_civil'), filhos: val('filhos'),
+      cidade: val('cidade'), bairro: val('bairro'),
+      escolaridade: val('escolaridade'), curso_superior: val('curso_superior'),
+      tempo_exp_atendimento: val('tempo_exp_atendimento'),
+      descricao_experiencia: val('descricao_experiencia'),
+      exp_saude: val('exp_saude'), situacao_atual: val('situacao_atual'),
+      perfil_vendas: val('perfil_vendas'), faz_followup: val('faz_followup'),
+      cenario_followup: val('cenario_followup'),
+      abordagem_indeciso: val('abordagem_indeciso'), exemplo_venda: val('exemplo_venda'),
+      multi_atendimento: val('multi_atendimento'), paciente_dificil: val('paciente_dificil'),
+      canais_digitais: val('canais_digitais'), usa_sistema: val('usa_sistema'),
+      qual_sistema: val('qual_sistema'), dominio_digital: val('dominio_digital'),
+      mkt_digital: val('mkt_digital'), motivacao: val('motivacao'),
+      visao_atendimento: val('visao_atendimento'), lida_metas: val('lida_metas'),
+      trabalhando_atualmente: val('trabalhando_atualmente'),
+      disponibilidade_inicio: val('disponibilidade_inicio'),
+      disponibilidade_horario: val('disponibilidade_horario'),
+      ressalva_horario: val('ressalva_horario'),
+      pretensao_salarial: val('pretensao_salarial'),
+      outro_processo: val('outro_processo'),
+      informacoes_adicionais: val('informacoes_adicionais')
+    };
+
+    try {
+      var resp = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+      if (!resp.ok) throw new Error('Erro');
+      document.getElementById('progresso').style.width = '100%';
+      document.getElementById('form-wrap').style.display = 'none';
+      document.getElementById('sucesso').style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch(e) {
+      erroEl.classList.add('visivel');
+      btn.disabled = false;
+      btn.textContent = 'Tentar novamente';
+    }
+  }
+</script>
+</body>
+</html>

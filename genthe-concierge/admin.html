@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Genthe — Painel Admin · Concierge/Comercial</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f4f8fc; font-family: 'DM Sans', sans-serif; color: #1a2e3d; }
+  .header { background: #1B6FAB; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .logo-text { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 800; color: #fff; }
+  .logo-text .verde { color: #6BBF4E; }
+  .header-tag { font-size: 12px; color: rgba(255,255,255,0.7); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 60px; }
+
+  /* LOGIN */
+  .login-wrap { min-height: 90vh; display: flex; align-items: center; justify-content: center; }
+  .login-card { background: #fff; border-radius: 16px; padding: 40px 36px; max-width: 380px; width: 100%; box-shadow: 0 4px 24px rgba(27,111,171,0.1); border: 1px solid #d4e6f1; text-align: center; }
+  .login-titulo { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 800; color: #1a2e3d; margin-bottom: 6px; }
+  .login-sub { font-size: 13px; color: #5a7a8a; margin-bottom: 24px; }
+  .login-card input { width: 100%; padding: 11px 14px; font-size: 14px; border: 1.5px solid #d4e6f1; border-radius: 8px; background: #f8fbfd; font-family: 'DM Sans', sans-serif; outline: none; margin-bottom: 12px; }
+  .login-card input:focus { border-color: #1B6FAB; box-shadow: 0 0 0 3px rgba(27,111,171,0.1); }
+  .btn-login { width: 100%; padding: 12px; background: #1B6FAB; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; font-family: 'Nunito', sans-serif; }
+  .login-erro { font-size: 12px; color: #c0392b; margin-top: 8px; display: none; }
+  .login-erro.visivel { display: block; }
+
+  /* PAINEL */
+  .painel-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+  .painel-titulo { font-family: 'Nunito', sans-serif; font-size: 24px; font-weight: 800; color: #1a2e3d; }
+  .painel-sub { font-size: 13px; color: #5a7a8a; margin-top: 2px; }
+  .btn-sair { padding: 8px 18px; background: #e8f2fa; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; color: #1B6FAB; cursor: pointer; font-family: 'Nunito', sans-serif; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .stat-card { background: #fff; border-radius: 12px; padding: 16px 18px; border: 1px solid #d4e6f1; }
+  .stat-num { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 800; color: #1B6FAB; }
+  .stat-label { font-size: 12px; color: #5a7a8a; margin-top: 2px; }
+
+  .filtros { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .filtros input, .filtros select { padding: 9px 14px; font-size: 13px; border: 1.5px solid #d4e6f1; border-radius: 8px; background: #fff; font-family: 'DM Sans', sans-serif; outline: none; }
+  .filtros input:focus, .filtros select:focus { border-color: #1B6FAB; }
+  .filtros input { flex: 1; min-width: 200px; }
+
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(27,111,171,0.07); border: 1px solid #d4e6f1; font-size: 13px; }
+  thead { background: #1B6FAB; color: #fff; }
+  th { padding: 12px 14px; text-align: left; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+  td { padding: 11px 14px; border-bottom: 1px solid #eef4fb; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f4f8fc; cursor: pointer; }
+
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; font-family: 'Nunito', sans-serif; }
+  .badge-novo { background: #e8f2fa; color: #1B6FAB; }
+  .badge-analise { background: #fff8e6; color: #b8860b; }
+  .badge-aprovado { background: #edf7e9; color: #3a7d44; }
+  .badge-reprovado { background: #fdf0f0; color: #c0392b; }
+
+  /* MODAL */
+  .overlay { position: fixed; inset: 0; background: rgba(26,46,61,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+  .overlay.aberto { display: flex; }
+  .modal { background: #fff; border-radius: 16px; max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 32px; position: relative; }
+  .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 22px; color: #5a7a8a; cursor: pointer; }
+  .modal-titulo { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 800; color: #1a2e3d; margin-bottom: 4px; }
+  .modal-meta { font-size: 12px; color: #5a7a8a; margin-bottom: 20px; }
+  .modal-secao { font-size: 12px; font-weight: 800; color: #1B6FAB; text-transform: uppercase; letter-spacing: 0.8px; font-family: 'Nunito', sans-serif; margin: 20px 0 10px; border-top: 1px solid #e8f2fa; padding-top: 16px; }
+  .campo-resp { margin-bottom: 12px; }
+  .campo-resp-label { font-size: 11px; color: #5a7a8a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .campo-resp-valor { font-size: 13px; color: #1a2e3d; line-height: 1.55; }
+  .status-select { padding: 8px 12px; border: 1.5px solid #d4e6f1; border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none; background: #f8fbfd; margin-top: 16px; width: 100%; }
+  .status-select:focus { border-color: #1B6FAB; }
+  .btn-salvar { margin-top: 10px; width: 100%; padding: 11px; background: #1B6FAB; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; font-family: 'Nunito', sans-serif; }
+  .loading { text-align: center; padding: 40px; color: #5a7a8a; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-text">gen<span class="verde">th</span>e</div>
+  <div class="header-tag">Painel Admin · Concierge / Comercial</div>
+</div>
+
+<!-- LOGIN -->
+<div id="tela-login" class="container">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-titulo">Acesso Restrito</div>
+      <p class="login-sub">Digite a senha de administrador para continuar.</p>
+      <input type="password" id="senha-input" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter') logar()" />
+      <button class="btn-login" onclick="logar()">Entrar</button>
+      <p class="login-erro" id="login-erro">Senha incorreta. Tente novamente.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PAINEL -->
+<div id="tela-painel" class="container" style="display:none;">
+  <div class="painel-header">
+    <div>
+      <div class="painel-titulo">Candidatos — Concierge / Comercial</div>
+      <div class="painel-sub">Clique em um candidato para ver todas as respostas.</div>
+    </div>
+    <button class="btn-sair" onclick="sair()">Sair</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-novo">0</div><div class="stat-label">Novos</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-analise">0</div><div class="stat-label">Em análise</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-aprovado">0</div><div class="stat-label">Aprovados</div></div>
+  </div>
+
+  <div class="filtros">
+    <input type="text" id="busca" placeholder="Buscar por nome, cidade ou bairro..." oninput="renderTabela()" />
+    <select id="filtro-status" onchange="renderTabela()">
+      <option value="">Todos os status</option>
+      <option>Novo</option>
+      <option>Em análise</option>
+      <option>Aprovado</option>
+      <option>Reprovado</option>
+    </select>
+  </div>
+
+  <div id="loading" class="loading">Carregando candidatos...</div>
+  <table id="tabela" style="display:none;">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Cidade / Bairro</th>
+        <th>Exp. Atendimento</th>
+        <th>Pretensão</th>
+        <th>Status</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="fecharModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="document.getElementById('overlay').classList.remove('aberto')">×</button>
+    <div id="modal-conteudo"></div>
+  </div>
+</div>
+
+<script>
+  var senha = '';
+  var candidatos = [];
+
+  function logar() {
+    senha = document.getElementById('senha-input').value;
+    carregarCandidatos();
+  }
+
+  async function carregarCandidatos() {
+    var resp = await fetch('/api/respostas', { headers: { 'x-admin-password': senha } });
+    if (resp.status === 401) {
+      document.getElementById('login-erro').classList.add('visivel');
+      return;
+    }
+    candidatos = await resp.json();
+    document.getElementById('tela-login').style.display = 'none';
+    document.getElementById('tela-painel').style.display = 'block';
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('tabela').style.display = 'table';
+    atualizarStats();
+    renderTabela();
+  }
+
+  function atualizarStats() {
+    document.getElementById('stat-total').textContent = candidatos.length;
+    document.getElementById('stat-novo').textContent = candidatos.filter(c => c.status === 'Novo').length;
+    document.getElementById('stat-analise').textContent = candidatos.filter(c => c.status === 'Em análise').length;
+    document.getElementById('stat-aprovado').textContent = candidatos.filter(c => c.status === 'Aprovado').length;
+  }
+
+  function renderTabela() {
+    var busca = document.getElementById('busca').value.toLowerCase();
+    var filtroStatus = document.getElementById('filtro-status').value;
+    var lista = candidatos.filter(c => {
+      var ok = true;
+      if (busca) ok = ok && (
+        (c.nome||'').toLowerCase().includes(busca) ||
+        (c.cidade||'').toLowerCase().includes(busca) ||
+        (c.bairro||'').toLowerCase().includes(busca)
+      );
+      if (filtroStatus) ok = ok && c.status === filtroStatus;
+      return ok;
+    });
+    var tbody = document.getElementById('tbody');
+    tbody.innerHTML = lista.map(c => {
+      var badge = { 'Novo':'badge-novo','Em análise':'badge-analise','Aprovado':'badge-aprovado','Reprovado':'badge-reprovado' }[c.status] || 'badge-novo';
+      var data = c.criado_em ? new Date(c.criado_em).toLocaleDateString('pt-BR') : '';
+      return '<tr onclick="abrirModal(\'' + c.id + '\')">' +
+        '<td><strong>' + (c.nome||'') + '</strong></td>' +
+        '<td>' + (c.telefone||'') + '</td>' +
+        '<td>' + (c.cidade||'') + (c.bairro ? ' · ' + c.bairro : '') + '</td>' +
+        '<td>' + (c.tempo_exp_atendimento||'') + '</td>' +
+        '<td>' + (c.pretensao_salarial||'') + '</td>' +
+        '<td><span class="badge ' + badge + '">' + (c.status||'Novo') + '</span></td>' +
+        '<td>' + data + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  function abrirModal(id) {
+    var c = candidatos.find(x => x.id === id);
+    if (!c) return;
+    var data = c.criado_em ? new Date(c.criado_em).toLocaleString('pt-BR') : '';
+    var html = '<div class="modal-titulo">' + (c.nome||'') + '</div>' +
+      '<div class="modal-meta">' + (c.email||'') + ' · ' + (c.telefone||'') + ' · ' + data + '</div>';
+
+    function linha(label, val) {
+      if (!val) return '';
+      return '<div class="campo-resp"><div class="campo-resp-label">' + label + '</div><div class="campo-resp-valor">' + val + '</div></div>';
+    }
+
+    html += '<div class="modal-secao">Dados Pessoais</div>';
+    html += linha('Idade', c.idade) + linha('Estado Civil', c.estado_civil) + linha('Filhos', c.filhos) + linha('Cidade / Bairro', (c.cidade||'') + (c.bairro ? ' · ' + c.bairro : ''));
+
+    html += '<div class="modal-secao">Formação e Experiência</div>';
+    html += linha('Escolaridade', c.escolaridade) + linha('Curso Superior', c.curso_superior) + linha('Tempo de Experiência', c.tempo_exp_atendimento) + linha('Descrição da Experiência', c.descricao_experiencia) + linha('Exp. em Saúde', c.exp_saude) + linha('Situação Atual', c.situacao_atual);
+
+    html += '<div class="modal-secao">Perfil Comercial</div>';
+    html += linha('Perfil em Vendas', c.perfil_vendas) + linha('Faz Follow-up', c.faz_followup) + linha('Cenário Follow-up', c.cenario_followup) + linha('Abordagem com Indeciso', c.abordagem_indeciso) + linha('Exemplo de Venda', c.exemplo_venda);
+
+    html += '<div class="modal-secao">Atendimento e Ferramentas</div>';
+    html += linha('Multi Atendimento', c.multi_atendimento) + linha('Paciente Difícil', c.paciente_dificil) + linha('Canais Digitais', c.canais_digitais) + linha('Usa Sistema', c.usa_sistema) + linha('Qual Sistema', c.qual_sistema) + linha('Domínio Digital', c.dominio_digital) + linha('Marketing Digital', c.mkt_digital);
+
+    html += '<div class="modal-secao">Motivação e Disponibilidade</div>';
+    html += linha('Motivação', c.motivacao) + linha('Visão de Atendimento', c.visao_atendimento) + linha('Lida com Metas', c.lida_metas) + linha('Trabalhando Atualmente', c.trabalhando_atualmente) + linha('Disponibilidade de Início', c.disponibilidade_inicio) + linha('Disponibilidade de Horário', c.disponibilidade_horario) + linha('Ressalva de Horário', c.ressalva_horario) + linha('Pretensão Salarial', c.pretensao_salarial) + linha('Outro Processo', c.outro_processo) + linha('Informações Adicionais', c.informacoes_adicionais);
+
+    html += '<div class="modal-secao">Atualizar Status</div>';
+    html += '<select class="status-select" id="status-select">' +
+      ['Novo','Em análise','Aprovado','Reprovado'].map(s =>
+        '<option' + (c.status === s ? ' selected' : '') + '>' + s + '</option>'
+      ).join('') + '</select>';
+    html += '<button class="btn-salvar" onclick="salvarStatus(\'' + c.id + '\')">Salvar status</button>';
+
+    document.getElementById('modal-conteudo').innerHTML = html;
+    document.getElementById('overlay').classList.add('aberto');
+  }
+
+  function fecharModal(e) {
+    if (e.target === document.getElementById('overlay'))
+      document.getElementById('overlay').classList.remove('aberto');
+  }
+
+  async function salvarStatus(id) {
+    var novoStatus = document.getElementById('status-select').value;
+    await fetch('/api/respostas', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'x-admin-password': senha },
+      body: JSON.stringify({ id, status: novoStatus })
+    });
+    var c = candidatos.find(x => x.id === id);
+    if (c) c.status = novoStatus;
+    atualizarStats();
+    renderTabela();
+    document.getElementById('overlay').classList.remove('aberto');
+  }
+
+  function sair() {
+    senha = '';
+    candidatos = [];
+    document.getElementById('tela-painel').style.display = 'none';
+    document.getElementById('tela-login').style.display = 'block';
+    document.getElementById('senha-input').value = '';
+  }
+</script>
+</body>
+</html>
