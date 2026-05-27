@@ -148,13 +148,23 @@
   var senha = '';
   var candidatos = [];
 
-  function logar() {
-    senha = document.getElementById('senha-input').value;
+function logar() {
+    senha = document.getElementById('senha-input').value.trim();
+    if (!senha) {
+      document.getElementById('login-erro').classList.add('visivel');
+      return;
+    }
     carregarCandidatos();
   }
 
   async function carregarCandidatos() {
-    var resp = await fetch('/api/respostas', { headers: { 'x-admin-password': senha } });
+    var resp = await fetch('/api/respostas', { 
+      method: 'GET',
+      headers: { 
+        'x-admin-password': senha,
+        'Content-Type': 'application/json'
+      } 
+    });
     if (resp.status === 401) {
       document.getElementById('login-erro').classList.add('visivel');
       return;
